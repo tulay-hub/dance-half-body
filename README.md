@@ -1,11 +1,11 @@
-<p align="center"><a href="#zh">🇨🇳 中文</a> &nbsp;|&nbsp; <a href="#en">🇬🇧 English</a></p>
+<p align="center"><a href="#zh">中文</a> &nbsp;|&nbsp; <a href="#en">English</a></p>
 <a id="zh"></a>
 
 # 02 · 跳舞半身（Dance Half Body / Upper-Lower）
 
 ## 项目定位
 
-这是 Lens110 的 upper/lower 执行器接口项目。它不是把整个机器人简单砍成若干关节，而是让 policy-facing
+这是双足人形机器人的 upper/lower 执行器接口项目。它不是把整个机器人简单砍成若干关节，而是让 policy-facing
 ankle IO 使用四个物理 upper/lower 执行器槽位，同时把训练模型中的 pitch/roll 踝状态和动作转换到真实
 执行器语义。
 
@@ -32,7 +32,7 @@ ankle IO 使用四个物理 upper/lower 执行器槽位，同时把训练模型�
 │   ├── raw/bvh -> ../dance_dataset/raw_bvh/original_bvh
 │   ├── processed/retargeted_actions/mixed_k1_mj_motion/
 │   ├── models/pitchRoll2UpperLower -> 框架内映射模型/脚本
-│   └── training/motion_data -> 框架内 Lens110 motion data
+│   └── training/motion_data -> 框架内双足人形机器人 motion data
 ├── exports/training_exports -> AMP runs
 ├── experiments/runs -> AMP TensorBoard/checkpoint runs
 └── docs/
@@ -56,6 +56,10 @@ discriminator style reward。upper/lower 转换的状态/动作链路见
 [`docs/INTERFACE_CONTRACTS.md`](docs/INTERFACE_CONTRACTS.md)。
 
 这里的 `pitchRoll2UpperLower` 是执行器映射/辅助训练链路，使用前必须检查映射模型版本和左右脚顺序。
+
+## 训练架构
+
+AMP、PPO、LSGAN discriminator、72/21 观测动作接口和四种 upper/lower plant 的完整实现流程见 [`docs/TRAINING_ARCHITECTURE.md`](docs/TRAINING_ARCHITECTURE.md)。当前视频目录没有单独标注为 upper/lower 的演示视频，因此不把通用舞蹈视频误作本项目结果。
 
 <a id="en"></a>
 
