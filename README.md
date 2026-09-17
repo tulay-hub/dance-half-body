@@ -178,7 +178,7 @@ docs/                              # 奖励证据和复现记录
 ## 9. 本地训练与复现
 
 ```bash
-./projects/02_dance_half_body/scripts/train.sh --headless --num_envs 2048 --max_iterations 200000
+./scripts/train.sh --headless --num_envs 2048 --max_iterations 200000
 ```
 
 选择变体时只替换对应 `--task` 和对应 mapping/plant；不要跨 Polynomial、MLP、XML tendon、Direct MJCF 复用 checkpoint。训练前后必须记录任务 ID、mapping model path、ankle joint order、obs/action shape、随机种子、环境数量、checkpoint 和 MuJoCo replay 时长。
@@ -234,4 +234,4 @@ The task reward contains linear/angular velocity tracking (`+1.25/+1.25`), alive
 
 ## Reproduction and deployment
 
-Run `./projects/02_dance_half_body/scripts/train.sh --headless --num_envs 2048 --max_iterations 200000` in the local Isaac Lab environment. Keep the mapping model, checkpoint, XML/MJCF plant, action scale, clips, joint order, normalization, and replay result together. Export the actor with its normalizer, then replay using the same ankle mapping and plant before any staged ROS2 hardware test. MuJoCo uses `wxyz` root quaternions while GMR/deployment CSV uses `xyzw`.
+Run `./scripts/train.sh --headless --num_envs 2048 --max_iterations 200000` in the local Isaac Lab environment. Keep the mapping model, checkpoint, XML/MJCF plant, action scale, clips, joint order, normalization, and replay result together. Export the actor with its normalizer, then replay using the same ankle mapping and plant before any staged ROS2 hardware test. MuJoCo uses `wxyz` root quaternions while GMR/deployment CSV uses `xyzw`.
