@@ -1,3 +1,6 @@
+<p align="center"><a href="#zh">🇨🇳 中文</a> &nbsp;|&nbsp; <a href="#en">🇬🇧 English</a></p>
+<a id="zh"></a>
+
 # 02 · 跳舞半身（Dance Half Body / Upper-Lower）
 
 ## 项目定位
@@ -53,6 +56,8 @@ discriminator style reward。upper/lower 转换的状态/动作链路见
 [`docs/INTERFACE_CONTRACTS.md`](docs/INTERFACE_CONTRACTS.md)。
 
 这里的 `pitchRoll2UpperLower` 是执行器映射/辅助训练链路，使用前必须检查映射模型版本和左右脚顺序。
+
+<a id="en"></a>
 
 ## English
 
