@@ -1,0 +1,149 @@
+# configs/lens_110.yaml
+# 模型路径
+policy_path: "/home/mfj/lbot-lab/logs/rsl_rl/lens110/2026-07-01_11-17-24/exported/policy.onnx"
+xml_path: "/home/mfj/lbot-lab/deploy_humanoid/resource/lens_110/mjcf/lens110_21dof_sim.xml"
+
+# 仿真参数 - 与训练一致
+simulation_duration: 20.0           # 仿真时长
+simulation_dt: 0.002                # 
+control_decimation: 5               # 
+command_ramp_duration: 0.5          
+init_base_pos: [0.0, 0.0, 0.65]
+fall_height: 0.30
+
+
+# ==================== 站立时的 PD 参数（高刚度） ====================
+stand_kps: [400.0, 500.0, 300.0, 400.0, 100.0, 100.0,           # 左腿
+            400.0, 500.0, 300.0, 400.0, 100.0, 100.0,           # 右腿
+            100.0,                                              # 躯干
+            100.0, 100.0, 100.0, 100.0,                         # 右臂
+            100.0, 100.0, 100.0, 100.0]                         # 左臂
+stand_kds: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0,                       # 左腿
+            5.0, 5.0, 5.0, 5.0, 5.0, 5.0,                       # 右腿
+            5.0,                                                # 躯干
+            2.0, 2.0, 2.0, 2.0,                                 # 右臂
+            2.0, 2.0, 2.0, 2.0]                                 # 左臂
+
+# ==================== 行走时的 PD 参数（较低刚度，柔顺） ====================
+# from lens 110
+walk_kps: [40.0, 40.0, 40.0, 40.0, 5.0, 5.0,                # 左腿
+           40.0, 40.0, 40.0, 40.0, 5.0, 5.0,                # 右腿
+           100.0,                                           # 躯干
+           20.0, 20.0, 20.0, 20.0,                          # 右臂
+           20.0, 20.0, 20.0, 20.0]                          # 左臂
+walk_kds: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0,                    # 左腿
+           5.0, 5.0, 5.0, 5.0, 5.0, 5.0,                    # 右腿
+           5.0,                                             # 躯干
+           1.0, 1.0, 1.0, 1.0,                              # 右臂
+           1.0, 1.0, 1.0, 1.0]                              # 左臂
+           
+# 站立的默认关节角度：
+default_angles:  [
+    -0.14,   # left_hip_pitch_joint
+    0.01,   # left_hip_roll_joint
+    -0.1,   # left_hip_yaw_joint
+    0.36,   # left_knee_joint
+    -0.22,   # left_ankle_pitch_joint
+    -0.0,   # left_ankle_roll_joint
+    
+    -0.14,   # right_hip_pitch_joint
+    -0.01,   # right_hip_roll_joint
+    0.1,    # right_hip_yaw_joint
+    0.36,   # right_knee_joint
+    -0.22,  # right_ankle_pitch_joint
+    -0.0,  # right_ankle_roll_joint
+
+    0.0,    # torso_yaw_joint
+    
+    0.4,    # right_shoulder_pitch_joint
+    -0.2,   # right_shoulder_roll_joint
+    0.0,    # right_shoulder_yaw_joint
+    -0.8,   # right_elbow_joint
+    
+    0.4,    # left_shoulder_pitch_joint
+    0.2,    # left_shoulder_roll_joint
+    0.0,    # left_shoulder_yaw_joint
+    -0.8    # left_elbow_joint
+]
+
+# MuJoCo/MJCF 中的关节顺序。default_angles、PD 参数和 torque_limits 均按此顺序。
+model_joint_names: [
+    "left_hip_pitch_joint",
+    "left_hip_roll_joint",
+    "left_hip_yaw_joint",
+    "left_knee_joint",
+    "left_ankle_pitch_joint",
+    "left_ankle_roll_joint",
+    "right_hip_pitch_joint",
+    "right_hip_roll_joint",
+    "right_hip_yaw_joint",
+    "right_knee_joint",
+    "right_ankle_pitch_joint",
+    "right_ankle_roll_joint",
+    "torso_yaw_joint",
+    "right_shoulder_pitch_joint",
+    "right_shoulder_roll_joint",
+    "right_shoulder_yaw_joint",
+    "right_elbow_joint",
+    "left_shoulder_pitch_joint",
+    "left_shoulder_roll_joint",
+    "left_shoulder_yaw_joint",
+    "left_elbow_joint",
+]
+
+# Isaac Lab 运行时的 Articulation/action 顺序。训练 reward 里也按这个索引顺序写死：
+# [left/right hip_pitch, torso, left/right hip_roll, left/right shoulder_pitch, ...]
+policy_joint_names: [
+    "left_hip_pitch_joint",
+    "right_hip_pitch_joint",
+    "torso_yaw_joint",
+    "left_hip_roll_joint",
+    "right_hip_roll_joint",
+    "left_shoulder_pitch_joint",
+    "right_shoulder_pitch_joint",
+    "left_hip_yaw_joint",
+    "right_hip_yaw_joint",
+    "left_shoulder_roll_joint",
+    "right_shoulder_roll_joint",
+    "left_knee_joint",
+    "right_knee_joint",
+    "left_shoulder_yaw_joint",
+    "right_shoulder_yaw_joint",
+    "left_ankle_pitch_joint",
+    "right_ankle_pitch_joint",
+    "left_elbow_joint",
+    "right_elbow_joint",
+    "left_ankle_roll_joint",
+    "right_ankle_roll_joint",
+]
+
+# 优先使用训练端 IsaacLab actuator effort_limit_sim，而不是旧 MJCF/URDF 的 actuatorfrcrange。
+torque_limits: [
+    80.0, 80.0, 80.0, 80.0, 36.0, 36.0,
+    80.0, 80.0, 80.0, 80.0, 36.0, 36.0,
+    80.0,
+    36.0, 36.0, 36.0, 36.0,
+    36.0, 36.0, 36.0, 36.0,
+]
+
+
+# 观测缩放参数 - 与训练一致
+lin_vel_scale: 1.0      # 不要缩放
+ang_vel_scale: 1.0      # 不要缩放
+dof_pos_scale: 1.0      # 不要缩放
+dof_vel_scale: 1.0      # 不要缩放
+action_scale: 0.5       # 这个在动作配置中定义了
+
+# 命令缩放和初始值
+cmd_scale: [1.0, 1.0, 1.0]    # 命令通常也不缩放
+cmd_init: [0.0, 0.0, 0.0]
+
+# 维度
+num_actions: 21
+num_obs: 72
+
+# IMU传感器配置 - 对应XML中的传感器名称
+imu_orientation_sensor: "orientation"        # framequat传感器
+imu_gyro_sensor: "angular-velocity"          # gyro传感器
+imu_accelerometer_sensor: "linear-acceleration"  # accelerometer传感器
+imu_velocimeter_sensor: "linear-velocity"    # velocimeter传感器 (可选)

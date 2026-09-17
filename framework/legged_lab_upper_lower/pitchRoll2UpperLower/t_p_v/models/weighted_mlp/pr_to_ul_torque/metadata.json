@@ -1,0 +1,127 @@
+{
+  "relation": "pr_to_ul_torque",
+  "input_columns": [
+    "left_pitch_pos",
+    "left_roll_pos",
+    "right_pitch_pos",
+    "right_roll_pos",
+    "left_pitch_vel",
+    "left_roll_vel",
+    "right_pitch_vel",
+    "right_roll_vel",
+    "left_pitch_tau",
+    "left_roll_tau",
+    "right_pitch_tau",
+    "right_roll_tau"
+  ],
+  "output_columns": [
+    "left_upper_tau",
+    "left_lower_tau",
+    "right_upper_tau",
+    "right_lower_tau"
+  ],
+  "csv": [
+    "../../../data/train/policy_pr_ul_more_03_fwd05_20s.csv",
+    "../../../data/train/policy_pr_ul_more_04_fwd08_20s.csv",
+    "../../../data/train/policy_pr_ul_more_06_lat_right_20s.csv",
+    "../../../data/train/policy_pr_ul_more_07_turn_left_20s.csv",
+    "../../../data/train/policy_pr_ul_more_08_turn_right_20s.csv",
+    "../../../data/train/policy_pr_ul_more_09_fwd03_turn03_20s.csv",
+    "../../../data/train/policy_pr_ul_more_10_fwd03_turnm03_20s.csv",
+    "../../../data/train/policy_pr_ul_more_11_fwd05_lat01_20s.csv",
+    "../../../data/train/policy_pr_ul_more_12_fwd05_latm01_20s.csv",
+    "../../../data/train/policy_pr_ul_more_summary.csv",
+    "../../../data/train/policy_pr_ul_more_summary_2.csv",
+    "../../../data/train/policy_pr_ul_walk.csv",
+    "../../../data/train/suspended_pr_ankle_circle_staged.csv",
+    "../../../data/train/suspended_pr_ankle_roll_wide_train.csv",
+    "../../../data/train/suspended_pr_ankle_torque_staged.csv"
+  ],
+  "best_epoch": 184,
+  "best_val_weighted_mse": 0.0014503654092550278,
+  "suspended_torque_mode": "equiv",
+  "weights": {
+    "policy_torque_weight": 14.0,
+    "suspended_torque_weight": 0.2,
+    "policy_state_weight": 1.0,
+    "suspended_state_weight": 1.0,
+    "pos_output_weight": 1.0,
+    "vel_output_weight": 0.7,
+    "tau_output_weight": 1.0
+  },
+  "test_metrics": {
+    "all": {
+      "count": 1900,
+      "mae_all": 0.06741552799940109,
+      "rmse_all": 0.11379276216030121,
+      "max_abs_all": 0.6883127689361572,
+      "mae": [
+        0.04415207728743553,
+        0.10275011509656906,
+        0.05936133861541748,
+        0.06339863687753677
+      ],
+      "rmse": [
+        0.07593369483947754,
+        0.1659557968378067,
+        0.09611865878105164,
+        0.09617241472005844
+      ],
+      "max_abs": [
+        0.33421164751052856,
+        0.6883127689361572,
+        0.4122830629348755,
+        0.3654908835887909
+      ]
+    },
+    "policy": {
+      "count": 1200,
+      "mae_all": 0.02877124212682247,
+      "rmse_all": 0.05298365652561188,
+      "max_abs_all": 0.5154026746749878,
+      "mae": [
+        0.017034169286489487,
+        0.0437343493103981,
+        0.023331940174102783,
+        0.03098454512655735
+      ],
+      "rmse": [
+        0.028514031320810318,
+        0.0785839706659317,
+        0.03761919215321541,
+        0.053154315799474716
+      ],
+      "max_abs": [
+        0.23794615268707275,
+        0.5154026746749878,
+        0.33528757095336914,
+        0.3604307174682617
+      ]
+    },
+    "suspended": {
+      "count": 700,
+      "mae_all": 0.1336628794670105,
+      "rmse_all": 0.17416734993457794,
+      "max_abs_all": 0.6883127689361572,
+      "mae": [
+        0.09063996374607086,
+        0.20392005145549774,
+        0.1211259588599205,
+        0.11896573007106781
+      ],
+      "rmse": [
+        0.11940085887908936,
+        0.2533150911331177,
+        0.15050137042999268,
+        0.14234215021133423
+      ],
+      "max_abs": [
+        0.33421164751052856,
+        0.6883127689361572,
+        0.4122830629348755,
+        0.3654908835887909
+      ]
+    },
+    "other": null
+  }
+}

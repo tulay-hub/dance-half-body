@@ -1,0 +1,72 @@
+seed: 42
+device: cuda:0
+num_steps_per_env: 16
+max_iterations: 50000
+empirical_normalization: null
+obs_groups:
+  policy:
+  - policy
+  critic:
+  - critic
+  discriminator:
+  - disc
+  discriminator_demonstration:
+  - disc_demo
+clip_actions: null
+save_interval: 100
+experiment_name: lens110_amp_leg_pitch_roll
+run_name: 12dof_gait_tune_stable_v2
+logger: tensorboard
+neptune_project: isaaclab
+wandb_project: isaaclab
+resume: false
+load_run: .*
+load_checkpoint: model_.*.pt
+class_name: AMPRunner
+policy:
+  class_name: ActorCritic
+  init_noise_std: 1.0
+  noise_std_type: scalar
+  actor_obs_normalization: false
+  critic_obs_normalization: false
+  actor_hidden_dims:
+  - 512
+  - 256
+  - 128
+  critic_hidden_dims:
+  - 512
+  - 256
+  - 128
+  activation: elu
+algorithm:
+  class_name: PPOAMP
+  num_learning_epochs: 5
+  num_mini_batches: 8
+  learning_rate: 0.0001
+  schedule: adaptive
+  gamma: 0.99
+  lam: 0.95
+  entropy_coef: 0.01
+  desired_kl: 0.01
+  max_grad_norm: 1.0
+  value_loss_coef: 1.0
+  use_clipped_value_loss: true
+  clip_param: 0.2
+  normalize_advantage_per_mini_batch: false
+  rnd_cfg: null
+  symmetry_cfg: null
+  amp_cfg:
+    disc_obs_buffer_size: 64
+    grad_penalty_scale: 10.0
+    disc_trunk_weight_decay: 0.0001
+    disc_linear_weight_decay: 0.01
+    disc_learning_rate: 0.0001
+    disc_max_grad_norm: 1.0
+    amp_discriminator:
+      hidden_dims:
+      - 512
+      - 256
+      activation: elu
+      style_reward_scale: 5.0
+      task_style_lerp: 0.4
+    loss_type: LSGAN

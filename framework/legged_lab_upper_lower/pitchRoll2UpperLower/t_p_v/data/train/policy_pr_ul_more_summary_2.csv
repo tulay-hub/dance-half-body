@@ -1,0 +1,5 @@
+name,path,cmd_vx,cmd_vy,cmd_yaw,duration,returncode,rows,min_root_z,max_abs_tau,max_abs_ul_tau,status
+fwd03_turn03_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_09_fwd03_turn03_20s.csv,0.3,0.0,0.3,20.0,0,1000,0.6099404471226362,21.606806313891997,8.683189713426607,ok
+fwd03_turnm03_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_10_fwd03_turnm03_20s.csv,0.3,0.0,-0.3,20.0,0,1000,0.6389250438418039,13.813474847317426,9.211424631130711,ok
+fwd05_lat01_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_11_fwd05_lat01_20s.csv,0.5,0.1,0.0,20.0,0,1000,0.6339155010265796,17.457411830438556,8.53602508721638,ok
+fwd05_latm01_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_12_fwd05_latm01_20s.csv,0.5,-0.1,0.0,20.0,0,1000,0.634130741434314,17.41815158689258,8.957784976115283,ok

@@ -1,0 +1,67 @@
+{
+  "relation": "ul_to_pr_state",
+  "config": {
+    "input_dim": 8,
+    "output_dim": 8,
+    "hidden_dim": 192,
+    "num_hidden_layers": 4,
+    "activation": "silu"
+  },
+  "input_columns": [
+    "left_upper_pos",
+    "left_lower_pos",
+    "right_upper_pos",
+    "right_lower_pos",
+    "left_upper_vel",
+    "left_lower_vel",
+    "right_upper_vel",
+    "right_lower_vel"
+  ],
+  "output_columns": [
+    "left_pitch_pos",
+    "left_roll_pos",
+    "right_pitch_pos",
+    "right_roll_pos",
+    "left_pitch_vel",
+    "left_roll_vel",
+    "right_pitch_vel",
+    "right_roll_vel"
+  ],
+  "best_epoch": 152,
+  "best_val_mse": 0.00011599229765124619,
+  "test_metrics": {
+    "mae_all": 0.020262373611330986,
+    "rmse_all": 0.03776922449469566,
+    "max_abs_all": 0.46574974060058594,
+    "mae": [
+      0.0012983143096789718,
+      0.0007881092606112361,
+      0.0012589781545102596,
+      0.0007537016645073891,
+      0.0451318584382534,
+      0.037109166383743286,
+      0.042718589305877686,
+      0.033040259033441544
+    ],
+    "rmse": [
+      0.0016894183354452252,
+      0.001062933006323874,
+      0.0016617152141407132,
+      0.0010194487404078245,
+      0.06051062420010567,
+      0.049651551991701126,
+      0.05806752294301987,
+      0.04365411400794983
+    ],
+    "max_abs": [
+      0.007726222276687622,
+      0.00501076877117157,
+      0.007780015468597412,
+      0.004623107612133026,
+      0.46574974060058594,
+      0.2606925964355469,
+      0.34042930603027344,
+      0.20876789093017578
+    ]
+  }
+}

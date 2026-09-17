@@ -1,0 +1,163 @@
+{
+  "relation": "ul_to_pr_state",
+  "input_columns": [
+    "left_upper_pos",
+    "left_lower_pos",
+    "right_upper_pos",
+    "right_lower_pos",
+    "left_upper_vel",
+    "left_lower_vel",
+    "right_upper_vel",
+    "right_lower_vel"
+  ],
+  "output_columns": [
+    "left_pitch_pos",
+    "left_roll_pos",
+    "right_pitch_pos",
+    "right_roll_pos",
+    "left_pitch_vel",
+    "left_roll_vel",
+    "right_pitch_vel",
+    "right_roll_vel"
+  ],
+  "csv": [
+    "../../../data/train/policy_pr_ul_more_03_fwd05_20s.csv",
+    "../../../data/train/policy_pr_ul_more_04_fwd08_20s.csv",
+    "../../../data/train/policy_pr_ul_more_06_lat_right_20s.csv",
+    "../../../data/train/policy_pr_ul_more_07_turn_left_20s.csv",
+    "../../../data/train/policy_pr_ul_more_08_turn_right_20s.csv",
+    "../../../data/train/policy_pr_ul_more_09_fwd03_turn03_20s.csv",
+    "../../../data/train/policy_pr_ul_more_10_fwd03_turnm03_20s.csv",
+    "../../../data/train/policy_pr_ul_more_11_fwd05_lat01_20s.csv",
+    "../../../data/train/policy_pr_ul_more_12_fwd05_latm01_20s.csv",
+    "../../../data/train/policy_pr_ul_more_summary.csv",
+    "../../../data/train/policy_pr_ul_more_summary_2.csv",
+    "../../../data/train/policy_pr_ul_walk.csv",
+    "../../../data/train/suspended_pr_ankle_circle_staged.csv",
+    "../../../data/train/suspended_pr_ankle_roll_wide_train.csv",
+    "../../../data/train/suspended_pr_ankle_torque_staged.csv"
+  ],
+  "best_epoch": 345,
+  "best_val_weighted_mse": 0.02752203308045864,
+  "suspended_torque_mode": "equiv",
+  "weights": {
+    "policy_torque_weight": 6.0,
+    "suspended_torque_weight": 0.75,
+    "policy_state_weight": 1.0,
+    "suspended_state_weight": 1.3,
+    "pos_output_weight": 1.0,
+    "vel_output_weight": 0.7,
+    "tau_output_weight": 1.0
+  },
+  "test_metrics": {
+    "all": {
+      "count": 1900,
+      "mae_all": 0.031215505674481392,
+      "rmse_all": 0.08019997179508209,
+      "max_abs_all": 1.3411880731582642,
+      "mae": [
+        0.0036944926250725985,
+        0.004973198752850294,
+        0.002574368380010128,
+        0.001793303876183927,
+        0.07375936210155487,
+        0.043037883937358856,
+        0.0815478190779686,
+        0.03834378719329834
+      ],
+      "rmse": [
+        0.006616891361773014,
+        0.009498554281890392,
+        0.004481305833905935,
+        0.0034236686769872904,
+        0.13634049892425537,
+        0.07895217835903168,
+        0.14535607397556305,
+        0.07307453453540802
+      ],
+      "max_abs": [
+        0.050019681453704834,
+        0.061356522142887115,
+        0.04183614253997803,
+        0.03868842124938965,
+        1.124562382698059,
+        0.6500927209854126,
+        1.3411880731582642,
+        0.7046297788619995
+      ]
+    },
+    "policy": {
+      "count": 1200,
+      "mae_all": 0.03705194965004921,
+      "rmse_all": 0.0911569893360138,
+      "max_abs_all": 1.3411880731582642,
+      "mae": [
+        0.003883903380483389,
+        0.005730863660573959,
+        0.002409781329333782,
+        0.0018321098759770393,
+        0.08291146159172058,
+        0.05083763599395752,
+        0.10205133259296417,
+        0.046758659183979034
+      ],
+      "rmse": [
+        0.007306573912501335,
+        0.011282553896307945,
+        0.00467961560934782,
+        0.003802740713581443,
+        0.14769670367240906,
+        0.09113238751888275,
+        0.16926582157611847,
+        0.08654124289751053
+      ],
+      "max_abs": [
+        0.050019681453704834,
+        0.061356522142887115,
+        0.04183614253997803,
+        0.03868842124938965,
+        1.124562382698059,
+        0.6500927209854126,
+        1.3411880731582642,
+        0.7046297788619995
+      ]
+    },
+    "suspended": {
+      "count": 700,
+      "mae_all": 0.021210165694355965,
+      "rmse_all": 0.05668649822473526,
+      "max_abs_all": 0.5252646803855896,
+      "mae": [
+        0.003369799116626382,
+        0.003674345789477229,
+        0.0028565186075866222,
+        0.0017267821822315454,
+        0.05807006359100342,
+        0.02966677024960518,
+        0.046398818492889404,
+        0.023918215185403824
+      ],
+      "rmse": [
+        0.005226979963481426,
+        0.005164130125194788,
+        0.004119197838008404,
+        0.0026505717542022467,
+        0.11427672952413559,
+        0.0517883375287056,
+        0.09073394536972046,
+        0.040682218968868256
+      ],
+      "max_abs": [
+        0.016976892948150635,
+        0.018702559173107147,
+        0.01627478003501892,
+        0.011058598756790161,
+        0.5252646803855896,
+        0.20555657148361206,
+        0.4464990496635437,
+        0.15340711176395416
+      ]
+    },
+    "other": null
+  }
+}

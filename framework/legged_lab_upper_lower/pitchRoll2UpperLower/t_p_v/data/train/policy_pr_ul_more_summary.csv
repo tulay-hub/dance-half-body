@@ -1,0 +1,9 @@
+name,path,cmd_vx,cmd_vy,cmd_yaw,duration,returncode,rows,min_root_z,max_abs_roll_rate,max_abs_tau,max_abs_ul_tau,status
+stand_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_01_stand_20s.csv,0.0,0.0,0.0,20.0,0,1000,0.4762522720509811,1.636590837231265,13074.573701727792,13074.573701727792,low_root_warning
+fwd02_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_02_fwd02_20s.csv,0.2,0.0,0.0,20.0,0,1000,0.5296212694418325,0.9187018430680802,3597.1845535472744,3597.1845535472744,low_root_warning
+fwd05_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_03_fwd05_20s.csv,0.5,0.0,0.0,20.0,0,1000,0.6353454999499911,0.5301413907346182,17.481061401208414,8.413437440837365,ok
+fwd08_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_04_fwd08_20s.csv,0.8,0.0,0.0,20.0,0,1000,0.6118239226233246,0.6108768587908235,18.94058565562249,8.423281610107175,ok
+lat_left_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_05_lat_left_20s.csv,0.2,0.25,0.0,20.0,0,1000,0.5142171861737027,1.5565044906886143,222.4697126089213,222.4697126089213,low_root_warning
+lat_right_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_06_lat_right_20s.csv,0.2,-0.25,0.0,20.0,0,1000,0.6146290408637406,0.6398875571581655,18.616711442462083,11.15611111855862,ok
+turn_left_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_07_turn_left_20s.csv,0.2,0.0,0.6,20.0,0,1000,0.6315173706516426,1.165430077461571,17.10230694718982,10.801025074131866,ok
+turn_right_20s,/home/ht/locomotion/legged_lab_gitee/pitchRoll2UpperLower/t_p_v/data/policy_pr_ul_more_08_turn_right_20s.csv,0.2,0.0,-0.6,20.0,0,1000,0.6049519054612091,1.0536191912127326,21.111267204206985,8.352440975782086,ok

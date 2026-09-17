@@ -1,0 +1,135 @@
+<!doctype html>
+<html><head><meta charset='utf-8'>
+<title>PR/UL model evaluation</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:24px;color:#222;background:#f7f8fa}
+h1{font-size:24px} h2{margin-top:34px}
+table{border-collapse:collapse;background:white;margin:12px 0;width:100%}
+th,td{border:1px solid #d0d7de;padding:6px 8px;text-align:right}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+img{max-width:100%;border:1px solid #d0d7de;background:white;margin:8px 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.card{background:white;border:1px solid #d0d7de;padding:12px}
+</style></head><body>
+<h1>PR/UL Model Evaluation</h1>
+<h2>pr_to_ul_state</h2>
+<table><thead><tr><th>backend</th><th>count</th><th>MAE</th><th>RMSE</th><th>MaxAbs</th><th>Bias</th></tr></thead><tbody>
+<tr><td>weighted_mlp</td><td>4500</td><td>0.709051</td><td>1.66345</td><td>33.4698</td><td>-0.139478</td></tr>
+<tr><td>poly_degree3</td><td>4500</td><td>0.958897</td><td>2.39176</td><td>48.5829</td><td>-0.0457103</td></tr>
+<tr><td>old_pkl</td><td>4500</td><td>22.1764</td><td>110.278</td><td>3715.88</td><td>-18.1263</td></tr>
+</tbody></table>
+<img src='pr_to_ul_state/overall_mae_rmse.png' alt='pr_to_ul_state overall'>
+<div class='grid'>
+<div class='card'><h3>weighted_mlp</h3>
+<a href='pr_to_ul_state/weighted_mlp/scatter_true_vs_pred.png'><img src='pr_to_ul_state/weighted_mlp/scatter_true_vs_pred.png' alt='weighted_mlp scatter_true_vs_pred.png'></a>
+<a href='pr_to_ul_state/weighted_mlp/error_hist.png'><img src='pr_to_ul_state/weighted_mlp/error_hist.png' alt='weighted_mlp error_hist.png'></a>
+<a href='pr_to_ul_state/weighted_mlp/timeseries.png'><img src='pr_to_ul_state/weighted_mlp/timeseries.png' alt='weighted_mlp timeseries.png'></a>
+</div>
+<div class='card'><h3>poly_degree3</h3>
+<a href='pr_to_ul_state/poly_degree3/scatter_true_vs_pred.png'><img src='pr_to_ul_state/poly_degree3/scatter_true_vs_pred.png' alt='poly_degree3 scatter_true_vs_pred.png'></a>
+<a href='pr_to_ul_state/poly_degree3/error_hist.png'><img src='pr_to_ul_state/poly_degree3/error_hist.png' alt='poly_degree3 error_hist.png'></a>
+<a href='pr_to_ul_state/poly_degree3/timeseries.png'><img src='pr_to_ul_state/poly_degree3/timeseries.png' alt='poly_degree3 timeseries.png'></a>
+</div>
+<div class='card'><h3>old_pkl</h3>
+<a href='pr_to_ul_state/old_pkl/scatter_true_vs_pred.png'><img src='pr_to_ul_state/old_pkl/scatter_true_vs_pred.png' alt='old_pkl scatter_true_vs_pred.png'></a>
+<a href='pr_to_ul_state/old_pkl/error_hist.png'><img src='pr_to_ul_state/old_pkl/error_hist.png' alt='old_pkl error_hist.png'></a>
+<a href='pr_to_ul_state/old_pkl/timeseries.png'><img src='pr_to_ul_state/old_pkl/timeseries.png' alt='old_pkl timeseries.png'></a>
+</div>
+</div>
+<h2>ul_to_pr_state</h2>
+<table><thead><tr><th>backend</th><th>count</th><th>MAE</th><th>RMSE</th><th>MaxAbs</th><th>Bias</th></tr></thead><tbody>
+<tr><td>weighted_mlp</td><td>4500</td><td>0.402057</td><td>0.762831</td><td>17.095</td><td>0.025702</td></tr>
+<tr><td>poly_degree3</td><td>4500</td><td>7.37985</td><td>23.1384</td><td>372.343</td><td>3.42383</td></tr>
+<tr><td>old_pkl</td><td>4500</td><td>122.686</td><td>1957.81</td><td>141479</td><td>-54.2844</td></tr>
+</tbody></table>
+<img src='ul_to_pr_state/overall_mae_rmse.png' alt='ul_to_pr_state overall'>
+<div class='grid'>
+<div class='card'><h3>weighted_mlp</h3>
+<a href='ul_to_pr_state/weighted_mlp/scatter_true_vs_pred.png'><img src='ul_to_pr_state/weighted_mlp/scatter_true_vs_pred.png' alt='weighted_mlp scatter_true_vs_pred.png'></a>
+<a href='ul_to_pr_state/weighted_mlp/error_hist.png'><img src='ul_to_pr_state/weighted_mlp/error_hist.png' alt='weighted_mlp error_hist.png'></a>
+<a href='ul_to_pr_state/weighted_mlp/timeseries.png'><img src='ul_to_pr_state/weighted_mlp/timeseries.png' alt='weighted_mlp timeseries.png'></a>
+</div>
+<div class='card'><h3>poly_degree3</h3>
+<a href='ul_to_pr_state/poly_degree3/scatter_true_vs_pred.png'><img src='ul_to_pr_state/poly_degree3/scatter_true_vs_pred.png' alt='poly_degree3 scatter_true_vs_pred.png'></a>
+<a href='ul_to_pr_state/poly_degree3/error_hist.png'><img src='ul_to_pr_state/poly_degree3/error_hist.png' alt='poly_degree3 error_hist.png'></a>
+<a href='ul_to_pr_state/poly_degree3/timeseries.png'><img src='ul_to_pr_state/poly_degree3/timeseries.png' alt='poly_degree3 timeseries.png'></a>
+</div>
+<div class='card'><h3>old_pkl</h3>
+<a href='ul_to_pr_state/old_pkl/scatter_true_vs_pred.png'><img src='ul_to_pr_state/old_pkl/scatter_true_vs_pred.png' alt='old_pkl scatter_true_vs_pred.png'></a>
+<a href='ul_to_pr_state/old_pkl/error_hist.png'><img src='ul_to_pr_state/old_pkl/error_hist.png' alt='old_pkl error_hist.png'></a>
+<a href='ul_to_pr_state/old_pkl/timeseries.png'><img src='ul_to_pr_state/old_pkl/timeseries.png' alt='old_pkl timeseries.png'></a>
+</div>
+</div>
+<h2>pr_to_ul_torque</h2>
+<table><thead><tr><th>backend</th><th>count</th><th>MAE</th><th>RMSE</th><th>MaxAbs</th><th>Bias</th></tr></thead><tbody>
+<tr><td>weighted_mlp</td><td>4471</td><td>0.284999</td><td>3.02678</td><td>104.388</td><td>0.0320421</td></tr>
+<tr><td>poly_degree3</td><td>4471</td><td>0.295014</td><td>3.05117</td><td>105.401</td><td>0.0231863</td></tr>
+</tbody></table>
+<img src='pr_to_ul_torque/overall_mae_rmse.png' alt='pr_to_ul_torque overall'>
+<div class='grid'>
+<div class='card'><h3>weighted_mlp</h3>
+<a href='pr_to_ul_torque/weighted_mlp/scatter_true_vs_pred.png'><img src='pr_to_ul_torque/weighted_mlp/scatter_true_vs_pred.png' alt='weighted_mlp scatter_true_vs_pred.png'></a>
+<a href='pr_to_ul_torque/weighted_mlp/error_hist.png'><img src='pr_to_ul_torque/weighted_mlp/error_hist.png' alt='weighted_mlp error_hist.png'></a>
+<a href='pr_to_ul_torque/weighted_mlp/timeseries.png'><img src='pr_to_ul_torque/weighted_mlp/timeseries.png' alt='weighted_mlp timeseries.png'></a>
+</div>
+<div class='card'><h3>poly_degree3</h3>
+<a href='pr_to_ul_torque/poly_degree3/scatter_true_vs_pred.png'><img src='pr_to_ul_torque/poly_degree3/scatter_true_vs_pred.png' alt='poly_degree3 scatter_true_vs_pred.png'></a>
+<a href='pr_to_ul_torque/poly_degree3/error_hist.png'><img src='pr_to_ul_torque/poly_degree3/error_hist.png' alt='poly_degree3 error_hist.png'></a>
+<a href='pr_to_ul_torque/poly_degree3/timeseries.png'><img src='pr_to_ul_torque/poly_degree3/timeseries.png' alt='poly_degree3 timeseries.png'></a>
+</div>
+</div>
+<h2>ul_to_pr_torque</h2>
+<table><thead><tr><th>backend</th><th>count</th><th>MAE</th><th>RMSE</th><th>MaxAbs</th><th>Bias</th></tr></thead><tbody>
+<tr><td>weighted_mlp</td><td>4471</td><td>2.15955</td><td>5.46329</td><td>156.431</td><td>0.485601</td></tr>
+<tr><td>poly_degree3</td><td>4471</td><td>24.6754</td><td>66.855</td><td>4282.38</td><td>-13.6552</td></tr>
+</tbody></table>
+<img src='ul_to_pr_torque/overall_mae_rmse.png' alt='ul_to_pr_torque overall'>
+<div class='grid'>
+<div class='card'><h3>weighted_mlp</h3>
+<a href='ul_to_pr_torque/weighted_mlp/scatter_true_vs_pred.png'><img src='ul_to_pr_torque/weighted_mlp/scatter_true_vs_pred.png' alt='weighted_mlp scatter_true_vs_pred.png'></a>
+<a href='ul_to_pr_torque/weighted_mlp/error_hist.png'><img src='ul_to_pr_torque/weighted_mlp/error_hist.png' alt='weighted_mlp error_hist.png'></a>
+<a href='ul_to_pr_torque/weighted_mlp/timeseries.png'><img src='ul_to_pr_torque/weighted_mlp/timeseries.png' alt='weighted_mlp timeseries.png'></a>
+</div>
+<div class='card'><h3>poly_degree3</h3>
+<a href='ul_to_pr_torque/poly_degree3/scatter_true_vs_pred.png'><img src='ul_to_pr_torque/poly_degree3/scatter_true_vs_pred.png' alt='poly_degree3 scatter_true_vs_pred.png'></a>
+<a href='ul_to_pr_torque/poly_degree3/error_hist.png'><img src='ul_to_pr_torque/poly_degree3/error_hist.png' alt='poly_degree3 error_hist.png'></a>
+<a href='ul_to_pr_torque/poly_degree3/timeseries.png'><img src='ul_to_pr_torque/poly_degree3/timeseries.png' alt='poly_degree3 timeseries.png'></a>
+</div>
+</div>
+<h2>pr_to_ul_full</h2>
+<table><thead><tr><th>backend</th><th>count</th><th>MAE</th><th>RMSE</th><th>MaxAbs</th><th>Bias</th></tr></thead><tbody>
+<tr><td>weighted_mlp</td><td>4471</td><td>0.578211</td><td>2.17165</td><td>104.924</td><td>-0.057035</td></tr>
+<tr><td>poly_degree3</td><td>4471</td><td>0.843975</td><td>2.95533</td><td>105.401</td><td>0.00550431</td></tr>
+</tbody></table>
+<img src='pr_to_ul_full/overall_mae_rmse.png' alt='pr_to_ul_full overall'>
+<div class='grid'>
+<div class='card'><h3>weighted_mlp</h3>
+<a href='pr_to_ul_full/weighted_mlp/scatter_true_vs_pred.png'><img src='pr_to_ul_full/weighted_mlp/scatter_true_vs_pred.png' alt='weighted_mlp scatter_true_vs_pred.png'></a>
+<a href='pr_to_ul_full/weighted_mlp/error_hist.png'><img src='pr_to_ul_full/weighted_mlp/error_hist.png' alt='weighted_mlp error_hist.png'></a>
+<a href='pr_to_ul_full/weighted_mlp/timeseries.png'><img src='pr_to_ul_full/weighted_mlp/timeseries.png' alt='weighted_mlp timeseries.png'></a>
+</div>
+<div class='card'><h3>poly_degree3</h3>
+<a href='pr_to_ul_full/poly_degree3/scatter_true_vs_pred.png'><img src='pr_to_ul_full/poly_degree3/scatter_true_vs_pred.png' alt='poly_degree3 scatter_true_vs_pred.png'></a>
+<a href='pr_to_ul_full/poly_degree3/error_hist.png'><img src='pr_to_ul_full/poly_degree3/error_hist.png' alt='poly_degree3 error_hist.png'></a>
+<a href='pr_to_ul_full/poly_degree3/timeseries.png'><img src='pr_to_ul_full/poly_degree3/timeseries.png' alt='poly_degree3 timeseries.png'></a>
+</div>
+</div>
+<h2>ul_to_pr_full</h2>
+<table><thead><tr><th>backend</th><th>count</th><th>MAE</th><th>RMSE</th><th>MaxAbs</th><th>Bias</th></tr></thead><tbody>
+<tr><td>weighted_mlp</td><td>4471</td><td>0.876585</td><td>2.79155</td><td>148.205</td><td>-0.0682785</td></tr>
+<tr><td>poly_degree3</td><td>4471</td><td>17.3365</td><td>116.848</td><td>9962.5</td><td>-0.65275</td></tr>
+</tbody></table>
+<img src='ul_to_pr_full/overall_mae_rmse.png' alt='ul_to_pr_full overall'>
+<div class='grid'>
+<div class='card'><h3>weighted_mlp</h3>
+<a href='ul_to_pr_full/weighted_mlp/scatter_true_vs_pred.png'><img src='ul_to_pr_full/weighted_mlp/scatter_true_vs_pred.png' alt='weighted_mlp scatter_true_vs_pred.png'></a>
+<a href='ul_to_pr_full/weighted_mlp/error_hist.png'><img src='ul_to_pr_full/weighted_mlp/error_hist.png' alt='weighted_mlp error_hist.png'></a>
+<a href='ul_to_pr_full/weighted_mlp/timeseries.png'><img src='ul_to_pr_full/weighted_mlp/timeseries.png' alt='weighted_mlp timeseries.png'></a>
+</div>
+<div class='card'><h3>poly_degree3</h3>
+<a href='ul_to_pr_full/poly_degree3/scatter_true_vs_pred.png'><img src='ul_to_pr_full/poly_degree3/scatter_true_vs_pred.png' alt='poly_degree3 scatter_true_vs_pred.png'></a>
+<a href='ul_to_pr_full/poly_degree3/error_hist.png'><img src='ul_to_pr_full/poly_degree3/error_hist.png' alt='poly_degree3 error_hist.png'></a>
+<a href='ul_to_pr_full/poly_degree3/timeseries.png'><img src='ul_to_pr_full/poly_degree3/timeseries.png' alt='poly_degree3 timeseries.png'></a>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,49 @@
+# 域适配配置
+# 用于调整Isaac Sim策略适配Mujoco物理引擎
+
+# 预设配置
+conservative:
+  description: "最稳定配置，适合初次验证和对称性观察"
+  kp_scale: 0.6        # PD刚度缩放 (降低40%)
+  kd_scale: 0.6        # PD阻尼缩放 (降低40%)
+  action_scale: 0.6    # 动作幅度缩放 (降低40%)
+  action_filter: 0.5   # 动作低通滤波系数 (强滤波)
+  target_velocity: 0.3 # 目标速度 (m/s)
+
+moderate:
+  description: "平衡配置，适合调优后使用"
+  kp_scale: 0.8        # PD刚度缩放 (降低20%)
+  kd_scale: 0.8        # PD阻尼缩放 (降低20%)
+  action_scale: 0.8    # 动作幅度缩放 (降低20%)
+  action_filter: 0.3   # 动作低通滤波系数 (中等滤波)
+  target_velocity: 0.5 # 目标速度 (m/s)
+
+aggressive:
+  description: "激进配置，不推荐使用"
+  kp_scale: 1.0        # PD刚度缩放 (无缩放)
+  kd_scale: 1.0        # PD阻尼缩放 (无缩放)
+  action_scale: 1.0    # 动作幅度缩放 (无缩放)
+  action_filter: 0.1   # 动作低通滤波系数 (轻滤波)
+  target_velocity: 0.8 # 目标速度 (m/s)
+
+# 自定义配置示例
+custom:
+  description: "自定义配置，可根据实际情况调整"
+  kp_scale: 0.7
+  kd_scale: 0.7
+  action_scale: 0.7
+  action_filter: 0.4
+  target_velocity: 0.4
+
+# 参数说明:
+# - kp_scale: PD控制器刚度缩放，降低可提高稳定性但响应变慢
+# - kd_scale: PD控制器阻尼缩放，降低可减少震荡
+# - action_scale: 动作幅度缩放，降低可减少剧烈运动
+# - action_filter: 低通滤波系数 (0-1)，越大越平滑但延迟越高
+# - target_velocity: 期望的行走速度
+
+# 推荐使用流程:
+# 1. 先用conservative测试，确保能稳定运行
+# 2. 如果稳定，尝试moderate提高速度
+# 3. 根据实际表现微调custom配置
+# 4. 不推荐直接使用aggressive

@@ -1,0 +1,193 @@
+{
+  "name": "mj_v1",
+  "source_legacy_hybrid_100hz": "projects/02_dance_half_body/data/processed/retargeted_actions/mixed_k1_mj_motion/k1_mj2_seg1_50fps_lens110_hybrid_100hz.csv",
+  "target_model": "frameworks/shared/lens110_isaaclab/lens110/legged_lab_lbot/source/legged_lab/legged_lab/data/Robots/model_humanoid_lens110/mjcf/lens110_21dof.xml",
+  "frames_50hz": 1261,
+  "frames_100hz": 2522,
+  "fps_50hz": 50,
+  "fps_100hz": 100,
+  "joint_order": [
+    "left_hip_pitch_joint",
+    "left_hip_roll_joint",
+    "left_hip_yaw_joint",
+    "left_knee_joint",
+    "left_ankle_pitch_joint",
+    "left_ankle_roll_joint",
+    "right_hip_pitch_joint",
+    "right_hip_roll_joint",
+    "right_hip_yaw_joint",
+    "right_knee_joint",
+    "right_ankle_pitch_joint",
+    "right_ankle_roll_joint",
+    "torso_yaw_joint",
+    "left_shoulder_pitch_joint",
+    "left_shoulder_roll_joint",
+    "left_shoulder_yaw_joint",
+    "left_elbow_joint",
+    "right_shoulder_pitch_joint",
+    "right_shoulder_roll_joint",
+    "right_shoulder_yaw_joint",
+    "right_elbow_joint"
+  ],
+  "changes": {
+    "coordinate_contract": "CSV/PKL root_rot xyzw; MuJoCo qpos WXYZ; writer and player roundtrip both verified",
+    "right_elbow_joint": "copy left_elbow_joint per frame",
+    "right_shoulder_pitch_joint": "copy left_shoulder_pitch_joint per frame",
+    "right_shoulder_roll_joint": "negative left_shoulder_roll_joint per frame plus -0.015 rad triangular collision relief on two short intervals",
+    "right_shoulder_yaw_joint": "negative left_shoulder_yaw_joint per frame",
+    "global_smoothing": "Savitzky-Golay window 15, polyorder 3 over root and all joint trajectories",
+    "backward_lean_cap": "body-forward coordinate: torso_yaw_link local +X projected horizontally; target 9.5 deg, hard acceptance limit 10 deg",
+    "foot_level": "joint-root/hip-roll plus ankle pitch/roll IK to world-Z after root correction",
+    "ground": "per-frame exact lowest foot mesh/collision geometry point at z=0 (zero clearance)",
+    "speed_limit_rad_s": 10.0
+  },
+  "audit_definition": {
+    "backward_lean": "atan2(-dot(torso_up, torso_forward_horizontal), torso_up_z), positive when torso top leans opposite robot forward",
+    "foot_lowest_point": "minimum z over both ankle mesh and collision-box geometries",
+    "self_collision": "penetrating non-floor MuJoCo contacts only, contact.dist < -1e-8",
+    "csv_roundtrip": "write qpos WXYZ as CSV XYZW, then read exactly as play_lens110_csv.py"
+  },
+  "audit": {
+    "50hz": {
+      "shape": [
+        1261,
+        28
+      ],
+      "trailing_rows": 1261,
+      "finite": true,
+      "csv_root_rot_format": "xyzw",
+      "mujoco_qpos_root_rot_format": "wxyz",
+      "quat_norm_maxerr": 2.220446049250313e-16,
+      "collision_frames": 0,
+      "min_distance_m": 0.0,
+      "floor_contact_frames": 1261,
+      "mesh_min_z_m": 0.0034132229597662843,
+      "mesh_p5_z_m": 0.003413222959766416,
+      "mesh_mean_z_m": 0.0034132455427980483,
+      "foot_lowest_point_z_m": [
+        -1.6306400674181987e-16,
+        -5.551115123125783e-17,
+        1.5959455978986625e-16
+      ],
+      "tilt_left_mean_max_deg": [
+        5.422460112416942e-05,
+        0.0009423874456849139
+      ],
+      "tilt_right_mean_max_deg": [
+        5.30245021922854e-05,
+        0.0008887115212141659
+      ],
+      "arm_open_diff_mean_max_deg": [
+        3.476599470055661,
+        26.87262271767335
+      ],
+      "arm_opening_definition": "angle of shoulder-to-hand vector from sagittal plane, absolute lateral component",
+      "hand_frontback_x_pp_left_right_m": [
+        0.837017114167897,
+        0.9392040480860724
+      ],
+      "hand_frontback_x_pp_diff_m": 0.10218693391817535,
+      "limit_violations": 0,
+      "near_limit_sum": 82,
+      "speed_max_rad_s": 10.0,
+      "speed_over_10_tol1e-8": 0,
+      "acc_p99_rad_s2": 83.95700331913413,
+      "acc_max_rad_s2": 274.1846812662072,
+      "jerk_p99_rad_s3": 2973.5877522631104,
+      "jerk_max_rad_s3": 15833.339321861711,
+      "root_angular_speed_max_rad_s": 5.4812044565027005,
+      "root_total_tilt_mean_p95_max_deg": [
+        6.72819244841283,
+        12.49290189725799,
+        16.859298158238758
+      ],
+      "root_z_min_max_m": [
+        0.6296801486940035,
+        0.6665868701733072
+      ],
+      "backward_lean_signed_min_p95_max_deg": [
+        -4.799016094241039,
+        9.500000605159144,
+        9.50012293791503
+      ],
+      "backward_lean_max_frame": 150,
+      "backward_lean_max_time_s": 3.0,
+      "backward_lean_gt_10deg_frames": 0,
+      "right_equals_left_elbow_max_diff": 0.0,
+      "right_shoulder_pitch_equals_left_max_diff": 0.0,
+      "right_yaw_plus_left_max_diff": 0.0,
+      "right_roll_plus_left_max_diff": 0.015000000000000013
+    },
+    "100hz": {
+      "shape": [
+        2522,
+        28
+      ],
+      "trailing_rows": 2522,
+      "finite": true,
+      "csv_root_rot_format": "xyzw",
+      "mujoco_qpos_root_rot_format": "wxyz",
+      "quat_norm_maxerr": 3.3306690738754696e-16,
+      "collision_frames": 0,
+      "min_distance_m": 0.0,
+      "floor_contact_frames": 2522,
+      "mesh_min_z_m": 0.0034132229597662843,
+      "mesh_p5_z_m": 0.0034132229597664127,
+      "mesh_mean_z_m": 0.003413245522771374,
+      "foot_lowest_point_z_m": [
+        -1.6306400674181987e-16,
+        -5.551115123125783e-17,
+        1.6653345369377348e-16
+      ],
+      "tilt_left_mean_max_deg": [
+        5.421194317741218e-05,
+        0.000971312278069445
+      ],
+      "tilt_right_mean_max_deg": [
+        5.301406662056975e-05,
+        0.0008887115212141659
+      ],
+      "arm_open_diff_mean_max_deg": [
+        3.476487223586426,
+        26.87262271767335
+      ],
+      "arm_opening_definition": "angle of shoulder-to-hand vector from sagittal plane, absolute lateral component",
+      "hand_frontback_x_pp_left_right_m": [
+        0.8375688651562216,
+        0.9395981839765993
+      ],
+      "hand_frontback_x_pp_diff_m": 0.10202931882037769,
+      "limit_violations": 0,
+      "near_limit_sum": 166,
+      "speed_max_rad_s": 10.0,
+      "speed_over_10_tol1e-8": 0,
+      "acc_p99_rad_s2": 95.23613663175445,
+      "acc_max_rad_s2": 430.6441186530874,
+      "jerk_p99_rad_s3": 6593.269220622777,
+      "jerk_max_rad_s3": 85675.99434848205,
+      "root_angular_speed_max_rad_s": 5.538569667147883,
+      "root_total_tilt_mean_p95_max_deg": [
+        6.7286743636678485,
+        12.492746523174953,
+        17.02927733338031
+      ],
+      "root_z_min_max_m": [
+        0.6284903210771969,
+        0.6665868701733072
+      ],
+      "backward_lean_signed_min_p95_max_deg": [
+        -4.817395377806167,
+        9.500000604477131,
+        9.50012293791503
+      ],
+      "backward_lean_max_frame": 300,
+      "backward_lean_max_time_s": 3.0,
+      "backward_lean_gt_10deg_frames": 0,
+      "right_equals_left_elbow_max_diff": 0.0,
+      "right_shoulder_pitch_equals_left_max_diff": 0.0,
+      "right_yaw_plus_left_max_diff": 0.0,
+      "right_roll_plus_left_max_diff": 0.015000000000000013
+    }
+  },
+  "status": "passed_staged_audit"
+}
