@@ -3,14 +3,6 @@
 
 # 跳舞半身训练架构（AMP + Upper/Lower）
 
-## 训练权重如何理解 / Interpreting training weights
-
-本文按本仓库当前代码说明训练机制；已有策略的复现参数以对应 run 的 `params/env.yaml`、`params/agent.yaml` 和部署配置为准。奖励混合系数、逐项环境奖励权重、优化器 loss 系数、专家样本比例以及课程采样范围是不同概念。
-
-混合系数可以写成 85%/15% 这样的配置比例，但不能代表训练过程中实际累计奖励贡献；单项 reward 的数值范围、门控、控制步长和出现频率都不同。需要实际贡献占比时，应统计同一 run 中每项加权回报，而不是把配置权重归一化成百分比。
-
-Configuration mixing coefficients are not measured reward contributions. Environment weights, optimizer coefficients, expert sampling and curriculum schedules describe different parts of training. Reproduce a saved policy with its own run snapshots.
-
 ## AMP 专家先验、混合比例与实际时序
 
 本任务用 PPOAMP 学习任务控制，并用专家 motion 的 LSGAN 判别器提供动作先验。实际奖励不是简单的 task+style 相加：
@@ -187,6 +179,14 @@ a_policy[21] -> scale/clip/default offset
 | 风格 | AMP discriminator style | `style_reward_scale=5.0` |
 
 跟踪项一般采用指数误差，正则项使用 L1/L2、接触或限位函数；具体函数定义和 term 名称以配置文件为准。终止条件（摔倒、坏姿态、非法接触或 episode 结束）由 TerminationManager 处理，不应当被误解为普通正奖励。
+
+## 训练权重如何理解 / Interpreting training weights
+
+本文按本仓库当前代码说明训练机制；已有策略的复现参数以对应 run 的 `params/env.yaml`、`params/agent.yaml` 和部署配置为准。奖励混合系数、逐项环境奖励权重、优化器 loss 系数、专家样本比例以及课程采样范围是不同概念。
+
+混合系数可以写成 85%/15% 这样的配置比例，但不能代表训练过程中实际累计奖励贡献；单项 reward 的数值范围、门控、控制步长和出现频率都不同。需要实际贡献占比时，应统计同一 run 中每项加权回报，而不是把配置权重归一化成百分比。
+
+Configuration mixing coefficients are not measured reward contributions. Environment weights, optimizer coefficients, expert sampling and curriculum schedules describe different parts of training. Reproduce a saved policy with its own run snapshots.
 
 ## 8. 数据、实验和导出
 
