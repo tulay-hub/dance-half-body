@@ -3,9 +3,37 @@
 
 # 跳舞半身训练架构（AMP + Upper/Lower）
 
+## 训练权重如何理解 / Interpreting training weights
+
+本文按本仓库当前代码说明训练机制；已有策略的复现参数以对应 run 的 `params/env.yaml`、`params/agent.yaml` 和部署配置为准。奖励混合系数、逐项环境奖励权重、优化器 loss 系数、专家样本比例以及课程采样范围是不同概念。
+
+混合系数可以写成 85%/15% 这样的配置比例，但不能代表训练过程中实际累计奖励贡献；单项 reward 的数值范围、门控、控制步长和出现频率都不同。需要实际贡献占比时，应统计同一 run 中每项加权回报，而不是把配置权重归一化成百分比。
+
+Configuration mixing coefficients are not measured reward contributions. Environment weights, optimizer coefficients, expert sampling and curriculum schedules describe different parts of training. Reproduce a saved policy with its own run snapshots.
+
+## AMP 专家先验、混合比例与实际时序
+
+本任务用 PPOAMP 学习任务控制，并用专家 motion 的 LSGAN 判别器提供动作先验。实际奖励不是简单的 task+style 相加：
+
+```text
+phi(D) = max(0, 1 - 0.25*(D-1)^2)
+r_style = dt_control * 5.0 * phi(D)
+r_PPO = 0.4*r_task + 0.6*r_style
+dt_control = 0.005 * 4 = 0.02 s
+r_PPO = 0.4*r_task + 0.06*phi(D)
+```
+
+40%/60% 是任务/风格混合系数。AMP 的 5.0 scale 还要乘 0.02 s 控制步长，不能与 GetUp 的 0.1 scale 跨框架直接比较。当前物理 `200 Hz`、策略 `50 Hz`；actor/critic 历史为 1/3 帧，判别器与 demo 均由 `AMP_NUM_STEPS=3` 覆盖基类 10 帧默认值。
+
+PPO 配置：value=1.0、entropy=0.01、clip=0.2、gamma=0.99、lambda=0.95，16 rollout steps、5 epochs、8 mini-batches；策略初始 LR=1e-4（adaptive），判别器 LR=1e-4、gradient penalty scale=10。upper/lower runner 将 `symmetry_cfg=None`，因此该变体没有启用基类的 mirror loss；环境中的 arm/hip 对称 reward 仍按环境配置计算。
+
+源码：`framework/legged_lab_upper_lower/source/legged_lab/legged_lab/tasks/locomotion/amp/amp_env_cfg.py`，`config/lens110/lens110_amp_env_cfg.py` 及 `config/lens110/agents/rsl_rl_ppo_cfg.py`（config 相对同一 amp 目录），以及 `framework/legged_lab_upper_lower/rsl_rl/rsl_rl/modules/amp.py`。Polynomial/MLP/XML tendon/direct MJCF 各自定义状态与动作映射，复现必须匹配注册的 runner 和 plant。
+
+English: The actual blend is `0.4*task + 0.6*(0.02*5*phi(D))`. Physics/control are 200/50 Hz. Discriminator/demo history is 3 frames, actor/critic history is 1/3. Upper/lower runner disables algorithmic symmetry loss, independently of environmental symmetry rewards. PPO value/entropy coefficients are 1.0/0.01; policy and discriminator initial learning rates are 1e-4.
+
 ## 1. 项目定位
 
-本项目训练双足人形机器人的 upper/lower 踝执行器接口舞蹈策略。仿真机器人仍以 `ankle_pitch_joint` 和 `ankle_roll_joint` 作为动力学关节，但 policy-facing 的踝关节位置/速度和动作被转换为四个 upper/lower 槽位，再映射回物理 pitch/roll。
+本项目训练双足人形机器人的 upper/lower 踝执行器接口舞蹈策略。Polynomial/MLP/XML 映射变体的仿真机器人以 `ankle_pitch_joint` 和 `ankle_roll_joint` 作为动力学关节，但 policy-facing 的踝关节位置/速度和动作被转换为四个 upper/lower 槽位，再映射回物理 pitch/roll。
 
 项目使用 AMP（Adversarial Motion Priors）约束动作风格，任务奖励负责速度、姿态、脚步和安全约束。AMP 判别器看到的是当前策略状态与参考 demo 状态，actor 只接收部署时可获得的观测；两者不能混为一个输入向量。
 
@@ -15,7 +43,7 @@
 | 主要算法 | AMP + PPO + LSGAN discriminator |
 | policy 输入 | 默认单帧 `72`，变体保持相同维度 |
 | action | `21` 个 policy-facing 关节动作 |
-| 物理/策略频率 | `500 Hz / 100 Hz` |
+| 物理/策略频率 | `200 Hz / 50 Hz` |
 | 踝接口 | `left/right_ankle_upper_joint`、`left/right_ankle_lower_joint` |
 | 主要任务 | `UpperLower-v0`、`MlpUpperLower-v0`、`XmlTendonUpperLower-v0`、`MJCF-UpperLower-v0` |
 
@@ -110,7 +138,7 @@ upper/lower 变体在 21 个位置中保留四个显式踝槽位：`left_ankle_u
 ### 5.2 Critic、AMP discriminator 和 demo observation
 
 - critic 使用独立特权观测组，包含 actor 状态以及真实 base linear velocity；默认 critic history 为 3，特权项不能直接带入真机 actor。
-- discriminator 当前状态组默认包含根部角速度、关节位置和关节速度，并按配置维护时间历史；demo 组使用 animation/reference 的对应状态。默认 AMP discriminator history 为 10，具体输入形状以运行时导出探针为准。
+- discriminator 当前状态组默认包含根部角速度、关节位置和关节速度，并按配置维护时间历史；demo 组使用 animation/reference 的对应状态。当前机器人配置 AMP discriminator history 为 3，具体输入形状以运行时导出探针为准。
 - demo 的踝关节位置/速度也必须经过与 policy 相同的 Polynomial、MLP 或 XML tendon 转换，不能拿 pitch/roll demo 与 upper/lower policy 状态直接比较。
 
 ## 6. Action 和执行器映射
@@ -128,7 +156,7 @@ a_policy[21] -> scale/clip/default offset
 
 ## 7. Reward 函数由什么构成
 
-本项目总目标可以理解为 `R_total = R_task + R_amp_style`。`R_task` 由环境 RewardManager 汇总；`R_amp_style` 由 discriminator 根据策略状态与 demo 状态的相似度产生。以下是当前双足人形机器人 AMP 任务层配置中的主要项：
+本项目总目标可以理解为 `R_total = 0.4 * R_task + 0.6 * R_amp_style`。`R_task` 由环境 RewardManager 汇总；`R_amp_style` 由 discriminator 根据策略状态与 demo 状态的相似度产生。以下是当前双足人形机器人 AMP 任务层配置中的主要项：
 
 | 类别 | Reward term / 语义 | 权重 |
 |---|---|---:|
@@ -218,7 +246,7 @@ flowchart TD
 
 ## Scope
 
-This repository trains the bipedal humanoid robot upper/lower ankle policy interface. The simulated robot still owns physical ankle pitch/roll joints, while policy observations and actions expose four upper/lower ankle slots. Polynomial, weighted MLP, XML tendon, and direct MJCF variants are separate plants and checkpoint contracts.
+This repository trains the bipedal humanoid robot upper/lower ankle policy interface. The mapped variants use physical ankle pitch/roll joints; the direct-MJCF variant uses its own upper/lower plant, while policy observations and actions expose four upper/lower ankle slots. Polynomial, weighted MLP, XML tendon, and direct MJCF variants are separate plants and checkpoint contracts.
 
 The training stack is Isaac Lab/LeggedLab with PPO and AMP. Task rewards handle velocity, posture, feet, limits, smoothness, energy, and contacts. An LSGAN discriminator compares policy state sequences with reference demo sequences and supplies the style reward. The configured style scale is `5.0` and task/style blending is controlled by `task_style_lerp=0.4`.
 
@@ -226,7 +254,7 @@ The training stack is Isaac Lab/LeggedLab with PPO and AMP. Task rewards handle 
 
 The default actor observation is 72 dimensions: 3 base angular velocity, 3 projected gravity, 3 velocity-command values, 21 relative joint positions, 21 relative joint velocities, and 21 previous actions. Upper/lower variants replace the ankle portions with the corresponding mapping functions while preserving the 21-slot policy order. The action has 21 entries and is scaled, clipped, and inverse-mapped to physical pitch/roll or tendon targets.
 
-The critic has privileged training-only state and a default history of three. The AMP discriminator and demo groups maintain their own sequences, with a default discriminator history of ten. These groups must not be copied into the hardware actor.
+The critic has privileged training-only state and a default history of three. The AMP discriminator and demo groups maintain their own sequences, with a configured discriminator history of three. These groups must not be copied into the hardware actor.
 
 ## Reward
 
